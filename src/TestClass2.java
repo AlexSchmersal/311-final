@@ -1,11 +1,11 @@
 
-public class TestClass1 {
+public class TestClass2 {
 	String stringVariable;
 	int intVariable;
 	boolean boolVariable;
 	
 	//A comment
-	public TestClass1() {
+	public TestClass2() {
 		this.stringVariable = "String";
 		this.intVariable = 0;
 		this.boolVariable = true;

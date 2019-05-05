@@ -28,28 +28,24 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 public class Driver {
 
 	public static void main(String[] args) {
-		String filePath = "src/TestClass1.java";
+		String filePath1 = "src/TestClass1.java";
 		try {
-			parse(readFileToString(filePath));
+			Strategies strategy = new Strategies(parse(readFileToString(filePath1)),parse(readFileToString(filePath1)));
+			System.out.println(strategy.exactMatch());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static void parse(String str) {
+	public static CompilationUnit parse(String str) {
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(str.toCharArray());
-		//parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		
-		//final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 		
-		//cu.accept(new ASTVisitorExtended());
-		
-		
-		parser.setKind(ASTParser.K_EXPRESSION);
-		ASTNode ast = parser.createAST(null);
-		System.out.println(ast.hashCode());
+		return cu;
 	}
 	
 	public static String readFileToString(String filePath) throws IOException {
@@ -59,7 +55,6 @@ public class Driver {
 		char[] buf = new char[10];
 		int numRead = 0;
 		while ((numRead = reader.read(buf)) != -1) {
-			System.out.println(numRead);
 			String readData = String.valueOf(buf, 0, numRead);
 			fileData.append(readData);
 			buf = new char[1024];
