@@ -19,8 +19,9 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
-//import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
+//import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -37,14 +38,18 @@ public class Driver {
 	}
 	
 	public static void parse(String str) {
-		ASTParser parser = ASTParser.newParser(AST.JLS11);
+		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(str.toCharArray());
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		//parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		
-		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+		//final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 		
-		cu.accept(new ASTVisitorExtended());
+		//cu.accept(new ASTVisitorExtended());
 		
+		
+		parser.setKind(ASTParser.K_EXPRESSION);
+		ASTNode ast = parser.createAST(null);
+		System.out.println(ast.hashCode());
 	}
 	
 	public static String readFileToString(String filePath) throws IOException {
