@@ -31,7 +31,7 @@ public class Driver {
 		String filePath1 = "src/TestClass1.java";
 		String filePath2 = "src/TestClass2.java";
 		try {
-			Strategies strategy = new Strategies(parse(readFileToString(filePath1)),parse(readFileToString(filePath2)));
+			Strategies strategy = new Strategies(parse(readFileToString(filePath1)),parse(readFileToString(filePath1)));
 			strategy.simplifiedACF();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

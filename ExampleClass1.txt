@@ -1,0 +1,12 @@
+public class TestClass1 {
+	String stringVariable;
+	int intVariable;
+	boolean boolVariable;
+	
+	//A comment
+	public TestClass1() {
+		this.stringVariable = "String";
+		this.intVariable = 0;
+		this.boolVariable = true;
+	}
+}

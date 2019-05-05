@@ -1,8 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 public class Strategies {
@@ -17,27 +20,36 @@ public class Strategies {
 	}
 	
 	public boolean exactMatch() {
-		int source1Hash = source1.hashCode();
-		int source2Hash = source2.hashCode();
+		int source1Hash = source1.toString().hashCode();
+		int source2Hash = source2.toString().hashCode();
 		System.out.println(source1Hash + " vs " + source2Hash);
 		if (source1Hash == source2Hash)
 			return true;
 		return false;
 	}
 	
-	//Generates hash of sources class name and method signatures, then compares the classes
+	private int hashNameMethods(int nameHash, Collection<SimpleName> source1MethodsSet) {
+		int returnHash = 0;
+		
+		for (SimpleName hash : source1MethodsSet)
+			returnHash += hash.toString().hashCode();
+		
+		returnHash += nameHash;
+		
+		return returnHash;
+	}
+	
+	//Generates hash of sources class name and method names, then compares the classes
 	public boolean simplifiedACF() {
 		source1.accept(this.source1Methods);
 		source2.accept(this.source2Methods);
 		
-		Set<Integer> keys = this.source1Methods.recordedMethods.keySet();
-		for (Integer key : keys)
-			System.out.println(key);
-		Set<Integer> keys2 = this.source2Methods.recordedMethods.keySet();
-		for (Integer key : keys2)
-			System.out.println(key);
-		//TODO: Why are these keys different when their bodies are the same??
-		return false;
+		int source1ConstructorHash = this.source1Methods.constructor.getName().toString().hashCode();
+		int source2ConstructorHash = this.source2Methods.constructor.getName().toString().hashCode();
+		Collection<SimpleName> source1MethodsSet = this.source1Methods.recordedMethods.values();
+		Collection<SimpleName> source2MethodsSet = this.source2Methods.recordedMethods.values();
+		
+		return(hashNameMethods(source1ConstructorHash, source1MethodsSet) == hashNameMethods(source2ConstructorHash, source2MethodsSet));
 	}
 	
 	public boolean simplifiedSimilarity() {
