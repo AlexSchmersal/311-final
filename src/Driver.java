@@ -29,9 +29,10 @@ public class Driver {
 
 	public static void main(String[] args) {
 		String filePath1 = "src/TestClass1.java";
+		String filePath2 = "src/TestClass2.java";
 		try {
-			Strategies strategy = new Strategies(parse(readFileToString(filePath1)),parse(readFileToString(filePath1)));
-			System.out.println(strategy.exactMatch());
+			Strategies strategy = new Strategies(parse(readFileToString(filePath1)),parse(readFileToString(filePath2)));
+			strategy.simplifiedACF();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
