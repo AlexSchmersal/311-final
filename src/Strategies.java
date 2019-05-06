@@ -51,8 +51,29 @@ public class Strategies {
 		
 		return(hashNameMethods(source1ConstructorHash, source1MethodsSet) == hashNameMethods(source2ConstructorHash, source2MethodsSet));
 	}
+	private int hashBody(int bodyHash, Collection<Block> source1BodySet) {
+		int returnHash = 0;
+		
+		for (Block hash : source1BodySet)
+			returnHash += hash.toString().hashCode();
+		
+		returnHash += bodyHash;
+		
+		return returnHash;
+	}
 	
 	public boolean simplifiedSimilarity() {
-		return false;
+		source1.accept(this.source1Methods);
+		source2.accept(this.source2Methods);
+		
+		int source1ConstructorHash = this.source1Methods.constructor.getName().toString().hashCode();
+		int source2ConstructorHash = this.source2Methods.constructor.getName().toString().hashCode();
+		Collection<Block> source1BodySet = this.source1Methods.recordedBody.values();
+		Collection<Block> source2BodySet = this.source2Methods.recordedBody.values();
+		
+		return((hashBody(source1ConstructorHash, source1BodySet) == hashBody(source2ConstructorHash, source2BodySet)));
+		
+
 	}
+	
 }
